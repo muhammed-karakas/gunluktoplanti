@@ -1,0 +1,31 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      args:
+        CORS_FRONTEND_URL: ${CORS_FRONTEND_URL}
+    env_file:
+      - .env
+    hostname: ${BACKEND_HOSTNAME}
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DRIVER: ${DB_DRIVER}
+      DB_URL: ${DB_URL}
+    ports:
+      - "${BACKEND_PORT}:8080"
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_BACKEND_URL: ${VITE_BACKEND_URL}
+    env_file:
+      - .env
+    hostname: ${FRONTEND_HOSTNAME}
+    ports:
+      - "${FRONTEND_PORT}:80"
+    depends_on:
+      - backend
