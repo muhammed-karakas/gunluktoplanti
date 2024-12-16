@@ -27,44 +27,44 @@ const FilterMeetingsModal = ({ visible, onClose }) => {
 
     const columns = [
         {
-            title: 'Konu', dataIndex: 'topic', key: 'topic',
+            title: 'Konu', dataIndex: 'topic', key: 'topic', sorter: (a, b) => a.topic.localeCompare(b.topic),
+            render: (text) => <div style={{ minWidth: '5ch', maxWidth: '50ch' }}>{text}</div>
+        },
+        {
+            title: 'Yer', dataIndex: 'location', key: 'location', sorter: (a, b) => a.location.localeCompare(b.location),
             render: (text) => <div style={{ minWidth: '4ch', maxWidth: '50ch' }}>{text}</div>
         },
         {
-            title: 'Yer', dataIndex: 'location', key: 'location',
-            render: (text) => <div style={{ minWidth: '3ch', maxWidth: '50ch' }}>{text}</div>
-        },
-        {
-            title: 'Tarih', dataIndex: 'meetingDatetime', key: 'meetingDatetime',
-            render: (date) => (<div style={{ minWidth: '5ch', maxWidth: '50ch' }}> {date ? dayjs(date).format('DD.MM.YYYY HH:mm') : ''} </div>)
-        },
-        {
-            title: 'Süre (dk)', dataIndex: 'duration', key: 'duration',
-            render: (text) => <div style={{ minWidth: '4ch', maxWidth: '50ch' }}>{text}</div>
-        },
-        {
-            title: 'Şirketler', dataIndex: 'companies', key: 'companies',
-            render: (companies) => (<div style={{ minWidth: '9ch', maxWidth: '50ch' }}> {Array.isArray(companies) ? companies.join(', ') : companies} </div>)
-        },
-        {
-            title: 'Şirket Katılımcıları', dataIndex: 'companyParticipants', key: 'companyParticipants',
-            render: (participants) => (<div style={{ minWidth: '13ch', maxWidth: '50ch' }}> {Array.isArray(participants) ? participants.join(', ') : participants} </div>)
-        },
-        {
-            title: 'Departmanlar', dataIndex: 'departments', key: 'departments',
-            render: (depts) => (<div style={{ minWidth: '12ch', maxWidth: '50ch' }}> {Array.isArray(depts) ? depts.join(', ') : depts} </div>)
-        },
-        {
-            title: 'Departman Katılımcıları', dataIndex: 'departmentParticipants', key: 'departmentParticipants',
-            render: (participants) => (<div style={{ minWidth: '13ch', maxWidth: '50ch' }}> {Array.isArray(participants) ? participants.join(', ') : participants} </div>)
-        },
-        {
-            title: 'Onay Makamları', dataIndex: 'approvalAuthorities', key: 'approvalAuthorities',
-            render: (authorities) => (<div style={{ minWidth: '9ch', maxWidth: '50ch' }}> {Array.isArray(authorities) ? authorities.join(', ') : authorities} </div>)
-        },
-        {
-            title: 'Onay Tarihi', dataIndex: 'approvalDatetime', key: 'approvalDatetime',
+            title: 'Tarih', dataIndex: 'meetingDatetime', key: 'meetingDatetime', sorter: (a, b) => new Date(a.meetingDatetime) - new Date(b.meetingDatetime),
             render: (date) => (<div style={{ minWidth: '6ch', maxWidth: '50ch' }}> {date ? dayjs(date).format('DD.MM.YYYY HH:mm') : ''} </div>)
+        },
+        {
+            title: 'Süre (dk)', dataIndex: 'duration', key: 'duration', sorter: (a, b) => a.duration - b.duration,
+            render: (text) => <div style={{ minWidth: '5ch', maxWidth: '50ch' }}>{text}</div>
+        },
+        {
+            title: 'Şirketler', dataIndex: 'companies', key: 'companies', sorter: (a, b) => (Array.isArray(a.companies) ? a.companies.length : 0) - (Array.isArray(b.companies) ? b.companies.length : 0),
+            render: (companies) => (<div style={{ minWidth: '10ch', maxWidth: '50ch' }}> {Array.isArray(companies) ? companies.join(', ') : companies} </div>)
+        },
+        {
+            title: 'Şirket Katılımcıları', dataIndex: 'companyParticipants', key: 'companyParticipants', sorter: (a, b) => (Array.isArray(a.companyParticipants) ? a.companyParticipants.length : 0) - (Array.isArray(b.companyParticipants) ? b.companyParticipants.length : 0),
+            render: (participants) => (<div style={{ minWidth: '14ch', maxWidth: '50ch' }}> {Array.isArray(participants) ? participants.join(', ') : participants} </div>)
+        },
+        {
+            title: 'Departmanlar', dataIndex: 'departments', key: 'departments', sorter: (a, b) => (Array.isArray(a.departments) ? a.departments.length : 0) - (Array.isArray(b.departments) ? b.departments.length : 0),
+            render: (depts) => (<div style={{ minWidth: '13ch', maxWidth: '50ch' }}> {Array.isArray(depts) ? depts.join(', ') : depts} </div>)
+        },
+        {
+            title: 'Departman Katılımcıları', dataIndex: 'departmentParticipants', key: 'departmentParticipants', sorter: (a, b) => (Array.isArray(a.departmentParticipants) ? a.departmentParticipants.length : 0) - (Array.isArray(b.departmentParticipants) ? b.departmentParticipants.length : 0),
+            render: (participants) => (<div style={{ minWidth: '14ch', maxWidth: '50ch' }}> {Array.isArray(participants) ? participants.join(', ') : participants} </div>)
+        },
+        {
+            title: 'Onay Makamları', dataIndex: 'approvalAuthorities', key: 'approvalAuthorities', sorter: (a, b) => (Array.isArray(a.approvalAuthorities) ? a.approvalAuthorities.length : 0) - (Array.isArray(b.approvalAuthorities) ? b.approvalAuthorities.length : 0),
+            render: (authorities) => (<div style={{ minWidth: '10ch', maxWidth: '50ch' }}> {Array.isArray(authorities) ? authorities.join(', ') : authorities} </div>)
+        },
+        {
+            title: 'Onay Tarihi', dataIndex: 'approvalDatetime', key: 'approvalDatetime', sorter: (a, b) => new Date(a.approvalDatetime) - new Date(b.approvalDatetime),
+            render: (date) => (<div style={{ minWidth: '7ch', maxWidth: '50ch' }}> {date ? dayjs(date).format('DD.MM.YYYY HH:mm') : ''} </div>)
         }
     ];
 
@@ -128,7 +128,7 @@ const FilterMeetingsModal = ({ visible, onClose }) => {
             <Modal
                 title='Toplantıları Filtrele'
                 centered
-                width='70vw'
+                width='90vw'
                 open={visible}
                 onCancel={onClose}
                 footer={null}
@@ -217,8 +217,12 @@ const FilterMeetingsModal = ({ visible, onClose }) => {
                                 columns={columns}
                                 rowKey='id'
                                 loading={loading}
-                                pagination={{ pageSize: 5 }}
-                                scroll={{ x: 'max-content', y: 'max-content' }}
+                                pagination={{
+                                    defaultPageSize: 5,
+                                    showSizeChanger: true,
+                                    showTotal: (total, range) => `${range[0]}-${range[1]} arası gösteriliyor, toplam ${total} kayıt bulundu.`
+                                }}
+                                scroll={{ x: 'max-content', y: '60vh' }}
                             />
                         </Col>
                     </Row>
