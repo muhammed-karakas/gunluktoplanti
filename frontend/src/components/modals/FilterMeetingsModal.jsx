@@ -123,6 +123,13 @@ const FilterMeetingsModal = ({ visible, onClose }) => {
         }
     };
 
+    const handleCancel = () => {
+        form.resetFields();
+        setMeetings([]);
+        setLoading(false);
+        onClose();
+    };
+
     return (
         <ConfigProvider locale={tr}>
             <Modal
@@ -130,7 +137,7 @@ const FilterMeetingsModal = ({ visible, onClose }) => {
                 centered
                 width='90vw'
                 open={visible}
-                onCancel={onClose}
+                onCancel={handleCancel}
                 footer={null}
                 destroyOnClose
             >
