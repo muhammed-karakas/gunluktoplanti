@@ -78,7 +78,7 @@ const GunlukToplanti = () => {
                         justifyContent: 'center',
                     }}
                 >
-                    Günlük Toplantı Sistemi ©2024
+                    Günlük Toplantı Sistemi ©2025
                 </div>
                 <MeetingFormModal
                     visible={isMeetingModalVisible}
