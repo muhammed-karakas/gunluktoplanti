@@ -28,43 +28,43 @@ const FilterMeetingsModal = ({ visible, onClose }) => {
     const columns = [
         {
             title: 'Konu', dataIndex: 'topic', key: 'topic',
-            render: (text) => <div style={{ maxWidth: '50ch' }}>{text}</div>
+            render: (text) => <div style={{ minWidth: '4ch', maxWidth: '50ch' }}>{text}</div>
         },
         {
             title: 'Yer', dataIndex: 'location', key: 'location',
-            render: (text) => <div style={{ maxWidth: '50ch' }}>{text}</div>
+            render: (text) => <div style={{ minWidth: '3ch', maxWidth: '50ch' }}>{text}</div>
         },
         {
             title: 'Tarih', dataIndex: 'meetingDatetime', key: 'meetingDatetime',
-            render: (date) => (<div style={{ maxWidth: '50ch' }}> {date ? dayjs(date).format('DD.MM.YYYY HH:mm') : ''} </div>)
+            render: (date) => (<div style={{ minWidth: '5ch', maxWidth: '50ch' }}> {date ? dayjs(date).format('DD.MM.YYYY HH:mm') : ''} </div>)
         },
         {
             title: 'Süre (dk)', dataIndex: 'duration', key: 'duration',
-            render: (text) => <div style={{ maxWidth: '50ch' }}>{text}</div>
+            render: (text) => <div style={{ minWidth: '4ch', maxWidth: '50ch' }}>{text}</div>
         },
         {
             title: 'Şirketler', dataIndex: 'companies', key: 'companies',
-            render: (companies) => (<div style={{ maxWidth: '50ch' }}> {Array.isArray(companies) ? companies.join(', ') : companies} </div>)
+            render: (companies) => (<div style={{ minWidth: '9ch', maxWidth: '50ch' }}> {Array.isArray(companies) ? companies.join(', ') : companies} </div>)
         },
         {
             title: 'Şirket Katılımcıları', dataIndex: 'companyParticipants', key: 'companyParticipants',
-            render: (participants) => (<div style={{ maxWidth: '50ch' }}> {Array.isArray(participants) ? participants.join(', ') : participants} </div>)
+            render: (participants) => (<div style={{ minWidth: '13ch', maxWidth: '50ch' }}> {Array.isArray(participants) ? participants.join(', ') : participants} </div>)
         },
         {
             title: 'Departmanlar', dataIndex: 'departments', key: 'departments',
-            render: (depts) => (<div style={{ maxWidth: '50ch' }}> {Array.isArray(depts) ? depts.join(', ') : depts} </div>)
+            render: (depts) => (<div style={{ minWidth: '12ch', maxWidth: '50ch' }}> {Array.isArray(depts) ? depts.join(', ') : depts} </div>)
         },
         {
             title: 'Departman Katılımcıları', dataIndex: 'departmentParticipants', key: 'departmentParticipants',
-            render: (participants) => (<div style={{ maxWidth: '50ch' }}> {Array.isArray(participants) ? participants.join(', ') : participants} </div>)
+            render: (participants) => (<div style={{ minWidth: '13ch', maxWidth: '50ch' }}> {Array.isArray(participants) ? participants.join(', ') : participants} </div>)
         },
         {
             title: 'Onay Makamları', dataIndex: 'approvalAuthorities', key: 'approvalAuthorities',
-            render: (authorities) => (<div style={{ maxWidth: '50ch' }}> {Array.isArray(authorities) ? authorities.join(', ') : authorities} </div>)
+            render: (authorities) => (<div style={{ minWidth: '9ch', maxWidth: '50ch' }}> {Array.isArray(authorities) ? authorities.join(', ') : authorities} </div>)
         },
         {
             title: 'Onay Tarihi', dataIndex: 'approvalDatetime', key: 'approvalDatetime',
-            render: (date) => (<div style={{ maxWidth: '50ch' }}> {date ? dayjs(date).format('DD.MM.YYYY HH:mm') : ''} </div>)
+            render: (date) => (<div style={{ minWidth: '6ch', maxWidth: '50ch' }}> {date ? dayjs(date).format('DD.MM.YYYY HH:mm') : ''} </div>)
         }
     ];
 
