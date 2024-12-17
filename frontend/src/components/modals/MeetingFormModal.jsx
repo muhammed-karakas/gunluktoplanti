@@ -156,8 +156,8 @@ const MeetingFormModal = ({ visible, onClose, currentYear, currentMonth, refetch
                 open={visible}
                 onCancel={handleCancel}
                 footer={
-                    <div style={{ whiteSpace: 'nowrap' }}>
-                        <Button type='primary' onClick={() => form.submit()} style={{ width: '80%' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <Button type='primary' onClick={() => form.submit()} style={{ width: '30%', marginLeft: '10%' }}>
                             Kaydet
                         </Button>
                         <Button onClick={handleCancel} style={{ width: '20%' }}>
