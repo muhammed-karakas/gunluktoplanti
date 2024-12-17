@@ -56,7 +56,9 @@ public class ExcelReportService {
                 row.createCell(9).setCellValue(String.join(", ", meeting.getApprovalAuthorities()));
                 row.createCell(10).setCellValue(meeting.getApprovalDatetime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
             }
-
+            for (int i = 0; i < headers.length; i++) {
+                sheet.autoSizeColumn(i);
+            }
             workbook.write(out);
             return new ByteArrayInputStream(out.toByteArray());
         }
