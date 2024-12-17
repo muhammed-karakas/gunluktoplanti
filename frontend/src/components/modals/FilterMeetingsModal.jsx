@@ -135,7 +135,7 @@ const FilterMeetingsModal = ({ visible, onClose }) => {
             <Modal
                 title='Toplantıları Filtrele'
                 centered
-                width='90vw'
+                width='80vw'
                 open={visible}
                 onCancel={handleCancel}
                 footer={null}
@@ -143,7 +143,7 @@ const FilterMeetingsModal = ({ visible, onClose }) => {
             >
                 <Form form={form} layout='vertical' onFinish={onSubmit} preserve={false}>
                     <Row gutter={32}>
-                        <Col span={8}>
+                        <Col span={6}>
                             <Divider>Filtre</Divider>
                             <Form.Item name='topic' label='Konu'>
                                 <AutoComplete
@@ -216,7 +216,7 @@ const FilterMeetingsModal = ({ visible, onClose }) => {
                                 </Button>
                             </Space>
                         </Col>
-                        <Col span={16}>
+                        <Col span={18}>
                             <Divider>Sonuçlar</Divider>
                             <Table
                                 dataSource={meetings}
