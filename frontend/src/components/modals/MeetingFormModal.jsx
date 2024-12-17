@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AutoComplete, Button, Col, ConfigProvider, DatePicker, Divider, Form, InputNumber, message, Modal, Row, Space, Typography } from 'antd';
+import { AutoComplete, Button, Col, ConfigProvider, DatePicker, Divider, Form, InputNumber, message, Modal, Row, Space, Tag, Typography } from 'antd';
 import { useAutoComplete } from '../AutoCompleteManager';
 import meetingService from '../../api/meetingService';
 import tr from 'antd/lib/locale/tr_TR';
@@ -29,40 +29,52 @@ const handleAddToList = (value, list, setList, clearFn) => {
 const handleEnterKey = (e, inputValue, selectedList, setSelectedList, setInputValue, fetchFn) => {
     if (e.key === 'Enter') {
         e.preventDefault();
-        if (inputValue.trim()) {
-            handleAddToList(inputValue, selectedList, setSelectedList, setInputValue);
-            if (fetchFn && inputValue) fetchFn([...selectedList, inputValue]);
-        }
+        handleAddToList(inputValue.trim(), selectedList, setSelectedList, setInputValue);
+        if (fetchFn && inputValue) fetchFn([...selectedList, inputValue]);
     }
 };
 
-const AddableAutoComplete = ({ label, options, placeholder, selectedItems, setSelectedItems, inputValue, setInputValue, fetchFn, onFocusFn, }) => (
-    <Form.Item label={label}>
-        <Space.Compact style={{ width: '100%' }}>
-            <AutoComplete
-                options={options} placeholder={placeholder} allowClearvirtual={false} value={inputValue} onChange={setInputValue} onFocus={onFocusFn}
-                onKeyDown={(e) => handleEnterKey(e, inputValue, selectedItems, setSelectedItems, setInputValue, fetchFn)}
-                onSelect={(value) => {
-                    handleAddToList(value, selectedItems, setSelectedItems, setInputValue);
-                    if (fetchFn && value) fetchFn([...selectedItems, value]);
-                }}
-                filterOption={(inputValue, option) =>
-                    option?.value.toLowerCase().includes(inputValue.toLowerCase())
-                }
-            />
-            <Button
-                type='primary'
-                onClick={() => {
-                    handleAddToList(inputValue, selectedItems, setSelectedItems, setInputValue);
-                    if (fetchFn && inputValue) fetchFn([...selectedItems, inputValue]);
-                }}
-            >
-                Ekle
-            </Button>
-        </Space.Compact>
-        <Text>{selectedItems.join(', ') || `${label} seçilmedi.`}</Text>
-    </Form.Item>
-);
+const AddableAutoComplete = ({ label, options, placeholder, selectedItems, setSelectedItems, inputValue, setInputValue, fetchFn, onFocusFn, onRemoveFn }) => {
+    const handleRemove = (item) => {
+        const updatedList = selectedItems.filter((selected) => selected !== item);
+        setSelectedItems(updatedList);
+        message.success(`${item} kaldırıldı.`);
+        if (onRemoveFn) onRemoveFn(updatedList);
+    };
+
+    return (
+        <Form.Item label={label}>
+            <Space.Compact style={{ width: '100%' }}>
+                <AutoComplete
+                    options={options} placeholder={placeholder} value={inputValue} allowClear virtual={false} onChange={setInputValue} onFocus={onFocusFn}
+                    onKeyDown={(e) => handleEnterKey(e, inputValue, selectedItems, setSelectedItems, setInputValue, fetchFn)}
+                    onSelect={(value) => {
+                        handleAddToList(value, selectedItems, setSelectedItems, setInputValue);
+                        if (fetchFn && value) fetchFn([...selectedItems, value]);
+                    }}
+                    filterOption={(inputValue, option) =>
+                        option?.value.toLowerCase().includes(inputValue.toLowerCase())
+                    }
+                />
+                <Button
+                    type='primary'
+                    onClick={() => {
+                        handleAddToList(inputValue, selectedItems, setSelectedItems, setInputValue);
+                        if (fetchFn && inputValue) fetchFn([...selectedItems, inputValue]);
+                    }}
+                >
+                    Ekle
+                </Button>
+            </Space.Compact>
+            <div style={{ marginTop: 8 }}>
+                {selectedItems.map((item) => (
+                    <Tag key={item} closable onClose={() => handleRemove(item)}> {item} </Tag>
+                ))}
+                {selectedItems.length === 0 && <Text type="secondary">{`${label} seçilmedi.`}</Text>}
+            </div>
+        </Form.Item>
+    );
+};
 
 const MeetingFormModal = ({ visible, onClose, currentYear, currentMonth, refetchMeetings }) => {
     const [form] = Form.useForm();
@@ -177,9 +189,7 @@ const MeetingFormModal = ({ visible, onClose, currentYear, currentMonth, refetch
                                     placeholder='Toplantı konusunu girin veya seçin'
                                     allowClear
                                     virtual={false}
-                                    filterOption={(inputValue, option) =>
-                                        option?.value.toLowerCase().includes(inputValue.toLowerCase())
-                                    }
+                                    filterOption={(inputValue, option) => option?.value.toLowerCase().includes(inputValue.toLowerCase())}
                                 />
                             </Form.Item>
                             <Form.Item name='location' label='Yer' rules={[{ required: true, message: 'Yer boş bırakılamaz!' }]}>
@@ -188,18 +198,11 @@ const MeetingFormModal = ({ visible, onClose, currentYear, currentMonth, refetch
                                     placeholder='Toplantı yerini girin veya seçin'
                                     allowClear
                                     virtual={false}
-                                    filterOption={(inputValue, option) =>
-                                        option?.value.toLowerCase().includes(inputValue.toLowerCase())
-                                    }
+                                    filterOption={(inputValue, option) => option?.value.toLowerCase().includes(inputValue.toLowerCase())}
                                 />
                             </Form.Item>
                             <Form.Item name='meetingDatetime' label='Tarih ve Saat' rules={[{ required: true, message: 'Tarih ve saat boş bırakılamaz!' }]}>
-                                <DatePicker
-                                    showTime
-                                    format='DD.MM.YYYY HH:mm'
-                                    placeholder='Toplantı tarihini girin'
-                                    style={{ width: '100%' }}
-                                />
+                                <DatePicker showTime format='DD.MM.YYYY HH:mm' placeholder='Toplantı tarihini girin' style={{ width: '100%' }} />
                             </Form.Item>
                             <Form.Item
                                 name='duration'
@@ -221,6 +224,7 @@ const MeetingFormModal = ({ visible, onClose, currentYear, currentMonth, refetch
                                 inputValue={companyInputValue}
                                 setInputValue={setCompanyInputValue}
                                 fetchFn={fetchCompanyParticipants}
+                                onRemoveFn={(updatedCompanies) => { fetchCompanyParticipants(updatedCompanies); }}
                             />
                             <AddableAutoComplete
                                 label='Şirket Katılımcıları'
@@ -230,9 +234,7 @@ const MeetingFormModal = ({ visible, onClose, currentYear, currentMonth, refetch
                                 setSelectedItems={setSelectedCompanyParticipants}
                                 inputValue={companyParticipantsInputValue}
                                 setInputValue={setCompanyParticipantsInputValue}
-                                onFocusFn={() => {
-                                    if (selectedCompanies.length > 0) fetchCompanyParticipants(selectedCompanies);
-                                }}
+                                onFocusFn={() => { if (selectedCompanies.length > 0) fetchCompanyParticipants(selectedCompanies); }}
                             />
                         </Col>
                         <Col span={12}>
@@ -250,6 +252,7 @@ const MeetingFormModal = ({ visible, onClose, currentYear, currentMonth, refetch
                                     const locationValue = form.getFieldValue('location');
                                     if (locationValue) fetchDepartments([locationValue]);
                                 }}
+                                onRemoveFn={(updatedDepartments) => { fetchDepartmentParticipants(updatedDepartments); }}
                             />
                             <AddableAutoComplete
                                 label='Departman Katılımcıları'
@@ -259,9 +262,7 @@ const MeetingFormModal = ({ visible, onClose, currentYear, currentMonth, refetch
                                 setSelectedItems={setSelectedDepartmentParticipants}
                                 inputValue={departmentParticipantsInputValue}
                                 setInputValue={setDepartmentParticipantsInputValue}
-                                onFocusFn={() => {
-                                    if (selectedDepartments.length > 0) fetchDepartmentParticipants(selectedDepartments);
-                                }}
+                                onFocusFn={() => { if (selectedDepartments.length > 0) fetchDepartmentParticipants(selectedDepartments); }}
                             />
                             <Divider>Onay Bilgileri</Divider>
                             <AddableAutoComplete

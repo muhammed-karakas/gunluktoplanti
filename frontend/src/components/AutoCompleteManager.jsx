@@ -46,7 +46,10 @@ export const AutoCompleteProvider = ({ children }) => {
     }, []);
 
     const fetchCompanyParticipants = async (companies) => {
-        if (!companies || companies.length === 0) return;
+        if (!companies || companies.length === 0) {
+            setCompanyParticipants([]);
+            return;
+        }
         try {
             setLoading((prev) => ({ ...prev, companyParticipants: true }));
             const responses = await Promise.all(
@@ -61,7 +64,10 @@ export const AutoCompleteProvider = ({ children }) => {
     };
 
     const fetchDepartments = async (locations) => {
-        if (!locations || locations.length === 0) return;
+        if (!locations || locations.length === 0) {
+            setDepartments([]);
+            return;
+        }
         try {
             setLoading((prev) => ({ ...prev, departments: true }));
             const responses = await Promise.all(
@@ -76,7 +82,10 @@ export const AutoCompleteProvider = ({ children }) => {
     };
 
     const fetchDepartmentParticipants = async (departments) => {
-        if (!departments || departments.length === 0) return;
+        if (!departments || departments.length === 0) {
+            setDepartmentParticipants([]);
+            return;
+        }
         try {
             setLoading((prev) => ({ ...prev, departmentParticipants: true }));
             const responses = await Promise.all(
