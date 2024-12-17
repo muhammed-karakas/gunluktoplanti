@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Badge, Button, Calendar, ConfigProvider, message, Modal, Select, Space, Spin, Typography } from 'antd';
-import { MoreOutlined } from '@ant-design/icons';
 import meetingService from '../api/meetingService';
 import MeetingDetailsModal from './modals/MeetingDetailsModal';
 import tr from 'antd/lib/locale/tr_TR';
@@ -85,9 +84,9 @@ const CalendarView = ({ onDateChange, onRefetchMeetings }) => {
                             <Badge style={{ whiteSpace: 'nowrap' }} status='processing' text={item.topic} />
                         </li>
                     ))}
-                    {listData.length > maxDisplay && (
-                        <li style={{ height: '22px', textAlign: 'center', fontSize: '18px', color: '#1677ff', }}>
-                            <MoreOutlined />
+                    {listData.length >= maxDisplay && (
+                        <li style={{ height: '22px', textAlign: 'center', color: '#1677ff' }}>
+                            +{listData.length - (maxDisplay - 1)} Toplantı
                         </li>
                     )}
                 </ul>
