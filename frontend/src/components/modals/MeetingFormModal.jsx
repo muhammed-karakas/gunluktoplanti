@@ -188,7 +188,7 @@ const MeetingFormModal = ({ visible, onClose, currentYear, currentMonth, refetch
                 <Form form={form} layout='vertical' onFinish={onSubmit} preserve={false}>
                     <Row gutter={32}>
                         <Col span={12}>
-                            <Divider style={{ whiteSpace: 'break-spaces' }}>Genel Bilgiler</Divider>
+                            <Divider style={{ display: 'block', whiteSpace: 'break-spaces' }}>Genel Bilgiler</Divider>
                             <Form.Item name='topic' label='Konu' rules={[{ required: true, message: 'Konu boş bırakılamaz!' }]}>
                                 <AutoComplete
                                     options={topicOptions}
@@ -220,7 +220,7 @@ const MeetingFormModal = ({ visible, onClose, currentYear, currentMonth, refetch
                             >
                                 <InputNumber min={1} style={{ width: '100%' }} placeholder='Toplantı süresini dakika cinsinden girin' />
                             </Form.Item>
-                            <Divider style={{ whiteSpace: 'break-spaces' }}>Şirketler ve Katılımcıları</Divider>
+                            <Divider style={{ display: 'block', whiteSpace: 'break-spaces' }}>Şirketler ve Katılımcıları</Divider>
                             <AddableAutoComplete
                                 label='Şirketler'
                                 options={companyOptions}
@@ -244,7 +244,7 @@ const MeetingFormModal = ({ visible, onClose, currentYear, currentMonth, refetch
                             />
                         </Col>
                         <Col span={12}>
-                            <Divider style={{ whiteSpace: 'break-spaces' }}>Departmanlar ve Katılımcıları</Divider>
+                            <Divider style={{ display: 'block', whiteSpace: 'break-spaces' }}>Departmanlar ve Katılımcıları</Divider>
                             <AddableAutoComplete
                                 label='Departmanlar'
                                 options={departmentOptions}
@@ -270,7 +270,7 @@ const MeetingFormModal = ({ visible, onClose, currentYear, currentMonth, refetch
                                 setInputValue={setDepartmentParticipantsInputValue}
                                 onFocusFn={() => { if (selectedDepartments.length > 0) fetchDepartmentParticipants(selectedDepartments); }}
                             />
-                            <Divider style={{ whiteSpace: 'break-spaces' }}>Onay Bilgileri</Divider>
+                            <Divider style={{ display: 'block', whiteSpace: 'break-spaces' }}>Onay Bilgileri</Divider>
                             <AddableAutoComplete
                                 label='Onay Makamları'
                                 options={approvalAuthoritiesOptions}
