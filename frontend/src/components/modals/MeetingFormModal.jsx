@@ -44,33 +44,39 @@ const AddableAutoComplete = ({ label, options, placeholder, selectedItems, setSe
 
     return (
         <Form.Item label={label}>
-            <Space.Compact style={{ width: '100%' }}>
-                <AutoComplete
-                    options={options} placeholder={placeholder} value={inputValue} allowClear virtual={false} onChange={setInputValue} onFocus={onFocusFn}
-                    onKeyDown={(e) => handleEnterKey(e, inputValue, selectedItems, setSelectedItems, setInputValue, fetchFn)}
-                    onSelect={(value) => {
-                        handleAddToList(value, selectedItems, setSelectedItems, setInputValue);
-                        if (fetchFn && value) fetchFn([...selectedItems, value]);
-                    }}
-                    filterOption={(inputValue, option) =>
-                        option?.value.toLowerCase().includes(inputValue.toLowerCase())
-                    }
-                />
-                <Button
-                    type='primary'
-                    onClick={() => {
-                        handleAddToList(inputValue, selectedItems, setSelectedItems, setInputValue);
-                        if (fetchFn && inputValue) fetchFn([...selectedItems, inputValue]);
-                    }}
-                >
-                    Ekle
-                </Button>
-            </Space.Compact>
+            <Row>
+                <Space.Compact style={{ width: '100%' }}>
+                    <Col span={20}>
+                        <AutoComplete
+                            options={options} placeholder={placeholder} value={inputValue} allowClear virtual={false} onChange={setInputValue} onFocus={onFocusFn}
+                            onKeyDown={(e) => handleEnterKey(e, inputValue, selectedItems, setSelectedItems, setInputValue, fetchFn)}
+                            onSelect={(value) => {
+                                handleAddToList(value, selectedItems, setSelectedItems, setInputValue);
+                                if (fetchFn && value) fetchFn([...selectedItems, value]);
+                            }}
+                            filterOption={(inputValue, option) =>
+                                option?.value.toLowerCase().includes(inputValue.toLowerCase())
+                            }
+                        />
+                    </Col>
+                    <Col span={4}>
+                        <Button
+                            type='primary' style={{ width: '100%' }}
+                            onClick={() => {
+                                handleAddToList(inputValue, selectedItems, setSelectedItems, setInputValue);
+                                if (fetchFn && inputValue) fetchFn([...selectedItems, inputValue]);
+                            }}
+                        >
+                            Ekle
+                        </Button>
+                    </Col>
+                </Space.Compact>
+            </Row>
             <div style={{ marginTop: 8 }}>
                 {selectedItems.map((item) => (
                     <Tag key={item} closable onClose={() => handleRemove(item)}> {item} </Tag>
                 ))}
-                {selectedItems.length === 0 && <Text type="secondary">{`${label} seçilmedi.`}</Text>}
+                {selectedItems.length === 0 && <Text type='secondary'>{`${label} seçilmedi.`}</Text>}
             </div>
         </Form.Item>
     );
@@ -168,21 +174,21 @@ const MeetingFormModal = ({ visible, onClose, currentYear, currentMonth, refetch
                 open={visible}
                 onCancel={handleCancel}
                 footer={
-                    <div>
+                    <Space style={{ gap: 16 }}>
                         <Button type='primary' onClick={() => form.submit()}>
                             Kaydet
                         </Button>
                         <Button onClick={handleCancel}>
                             Kapat
                         </Button>
-                    </div>
+                    </Space>
                 }
                 destroyOnClose
             >
                 <Form form={form} layout='vertical' onFinish={onSubmit} preserve={false}>
                     <Row gutter={32}>
                         <Col span={12}>
-                            <Divider>Genel Bilgiler</Divider>
+                            <Divider style={{ whiteSpace: 'break-spaces' }}>Genel Bilgiler</Divider>
                             <Form.Item name='topic' label='Konu' rules={[{ required: true, message: 'Konu boş bırakılamaz!' }]}>
                                 <AutoComplete
                                     options={topicOptions}
@@ -214,7 +220,7 @@ const MeetingFormModal = ({ visible, onClose, currentYear, currentMonth, refetch
                             >
                                 <InputNumber min={1} style={{ width: '100%' }} placeholder='Toplantı süresini dakika cinsinden girin' />
                             </Form.Item>
-                            <Divider>Şirketler ve Katılımcıları</Divider>
+                            <Divider style={{ whiteSpace: 'break-spaces' }}>Şirketler ve Katılımcıları</Divider>
                             <AddableAutoComplete
                                 label='Şirketler'
                                 options={companyOptions}
@@ -238,7 +244,7 @@ const MeetingFormModal = ({ visible, onClose, currentYear, currentMonth, refetch
                             />
                         </Col>
                         <Col span={12}>
-                            <Divider>Departmanlar ve Katılımcıları</Divider>
+                            <Divider style={{ whiteSpace: 'break-spaces' }}>Departmanlar ve Katılımcıları</Divider>
                             <AddableAutoComplete
                                 label='Departmanlar'
                                 options={departmentOptions}
@@ -264,7 +270,7 @@ const MeetingFormModal = ({ visible, onClose, currentYear, currentMonth, refetch
                                 setInputValue={setDepartmentParticipantsInputValue}
                                 onFocusFn={() => { if (selectedDepartments.length > 0) fetchDepartmentParticipants(selectedDepartments); }}
                             />
-                            <Divider>Onay Bilgileri</Divider>
+                            <Divider style={{ whiteSpace: 'break-spaces' }}>Onay Bilgileri</Divider>
                             <AddableAutoComplete
                                 label='Onay Makamları'
                                 options={approvalAuthoritiesOptions}
