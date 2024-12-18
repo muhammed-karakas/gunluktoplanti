@@ -8,7 +8,7 @@ import 'dayjs/locale/tr';
 
 dayjs.locale('tr');
 
-const CalendarView = ({ onDateChange, onRefetchMeetings }) => {
+const CalendarView = ({ onDateChange, onRefetchMeetings, themeMode }) => {
     const [viewMode, setViewMode] = useState('month');
     const [currentDate, setCurrentDate] = useState(dayjs());
     const [meetings, setMeetings] = useState([]);
@@ -18,6 +18,8 @@ const CalendarView = ({ onDateChange, onRefetchMeetings }) => {
     const [selectedMeeting, setSelectedMeeting] = useState(null);
     const [detailsModalVisible, setDetailsModalVisible] = useState(false);
     const [loading, setLoading] = useState(false);
+    const cellHoverColor = themeMode === 'light' ? '#e1e1e1' : '#3a3a3a';
+    const modalHoverColor = themeMode === 'light' ? '#ebebeb' : '#333333';
     const calendarContainerRef = useRef(null);
 
     const fetchMeetings = useCallback(async () => {
@@ -78,7 +80,7 @@ const CalendarView = ({ onDateChange, onRefetchMeetings }) => {
                             key={item.id}
                             style={{ height: '22px', cursor: 'pointer', borderRadius: '8px', transition: 'background-color 0.2s' }}
                             onClick={() => handleMeetingClick(item)}
-                            onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#e0e0e0')}
+                            onMouseOver={(e) => (e.currentTarget.style.backgroundColor = cellHoverColor)}
                             onMouseOut={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
                         >
                             <Badge style={{ whiteSpace: 'nowrap' }} status='processing' text={item.topic} />
@@ -233,7 +235,7 @@ const CalendarView = ({ onDateChange, onRefetchMeetings }) => {
                                     key={item.id}
                                     style={{ cursor: 'pointer', borderRadius: '8px', transition: 'background-color 0.2s' }}
                                     onClick={() => handleMeetingClick(item)}
-                                    onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#f0f0f0')}
+                                    onMouseOver={(e) => (e.currentTarget.style.backgroundColor = modalHoverColor)}
                                     onMouseOut={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
                                 >
                                     <Typography.Text>{item.topic}</Typography.Text> -{' '}
